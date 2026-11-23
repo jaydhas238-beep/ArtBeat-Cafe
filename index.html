@@ -1,0 +1,1764 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ARTBEAT CAFE — Nocturnal Gallery & Continental Lounge | Concept by Jayara Web Works</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Editorial Fonts: Cormorant Garamond (High-Contrast Serif), Syne (Architectural Display), Space Mono (Technical Metadata) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            obsidian: '#0F0D0C',
+            walnut: '#191614',
+            walnutLight: '#231F1C',
+            parchment: '#F4EFE6',
+            copper: '#D96B43',
+            pistachio: '#C9A24B',
+            sage: '#7C907A'
+          },
+          fontFamily: {
+            serif: ['Cormorant Garamond', 'Georgia', 'serif'],
+            display: ['Syne', 'sans-serif'],
+            mono: ['Space Mono', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    :root {
+      --bg-canvas: #0F0D0C;
+      --bg-surface: #191614;
+      --bg-elevated: #221E1B;
+      --text-main: #F4EFE6;
+      --text-dim: #A89F94;
+      --hairline: rgba(244, 239, 230, 0.12);
+      --accent-copper: #D96B43;
+      --accent-gold: #C9A24B;
+      --accent-sage: #7C907A;
+    }
+
+    /* Golden Afternoon Warm Sepia-Amber Variant */
+    body.golden-afternoon {
+      --bg-canvas: #1D1610;
+      --bg-surface: #281F17;
+      --bg-elevated: #33271D;
+      --text-main: #FAF3E6;
+      --text-dim: #CBBBA6;
+      --hairline: rgba(250, 243, 230, 0.16);
+      --accent-copper: #E27A4E;
+      --accent-gold: #DFB454;
+    }
+
+    body {
+      background-color: var(--bg-canvas);
+      color: var(--text-main);
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      transition: background-color 0.7s cubic-bezier(0.22, 1, 0.36, 1), color 0.7s ease;
+      overflow-x: hidden;
+    }
+
+    /* Subtle Film Grain Overlay */
+    .film-grain {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 9985;
+      opacity: 0.05;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23grain)'/%3E%3C/svg%3E");
+    }
+
+    /* Fine Architectural Hairline Grid Backdrop */
+    .arch-grid-bg {
+      background-size: 64px 64px;
+      background-image:
+        linear-gradient(to right, rgba(244, 239, 230, 0.03) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(244, 239, 230, 0.03) 1px, transparent 1px);
+    }
+
+    .surface-panel {
+      background-color: var(--bg-surface);
+      border: 1px solid var(--hairline);
+      transition: background-color 0.6s ease, border-color 0.35s ease, transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .surface-elevated {
+      background-color: var(--bg-elevated);
+      border: 1px solid var(--hairline);
+    }
+
+    .hairline-border {
+      border-color: var(--hairline);
+    }
+
+    .text-dim {
+      color: var(--text-dim);
+    }
+
+    /* Custom Precision Reticle Cursor (Desktop Pointer) */
+    @media (pointer: fine) {
+      #reticle-cursor {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 24px;
+        height: 24px;
+        border: 1px solid #D96B43;
+        border-radius: 9999px;
+        pointer-events: none;
+        z-index: 9999;
+        transform: translate(-50%, -50%);
+        transition: width 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+                    height 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+                    background-color 0.25s ease,
+                    border-color 0.25s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: 'Space Mono', monospace;
+        font-size: 9px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        color: #F4EFE6;
+        text-transform: uppercase;
+      }
+
+      #reticle-cursor::after {
+        content: '';
+        width: 4px;
+        height: 4px;
+        border-radius: 9999px;
+        background-color: #C9A24B;
+        transition: opacity 0.2s ease;
+      }
+
+      #reticle-cursor.reticle-active {
+        width: 82px;
+        height: 82px;
+        background-color: rgba(217, 107, 67, 0.88);
+        border-color: #F4EFE6;
+        backdrop-filter: blur(4px);
+      }
+
+      #reticle-cursor.reticle-active::after {
+        opacity: 0;
+      }
+    }
+
+    @media (pointer: coarse) {
+      #reticle-cursor {
+        display: none !important;
+      }
+    }
+
+    /* Spinning Vinyl Record & Equalizer Animation */
+    @keyframes spinVinyl {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .vinyl-spinning {
+      animation: spinVinyl 6s linear infinite;
+    }
+
+    .vinyl-paused {
+      animation: spinVinyl 24s linear infinite;
+      animation-play-state: paused;
+    }
+
+    @keyframes eqPulse {
+      0%, 100% { height: 4px; }
+      50% { height: 16px; }
+    }
+
+    .eq-bar {
+      width: 2.5px;
+      height: 4px;
+      background-color: #C9A24B;
+      border-radius: 2px;
+    }
+
+    .eq-playing .eq-bar:nth-child(1) { animation: eqPulse 0.75s ease-in-out infinite; }
+    .eq-playing .eq-bar:nth-child(2) { animation: eqPulse 0.55s ease-in-out infinite 0.15s; }
+    .eq-playing .eq-bar:nth-child(3) { animation: eqPulse 0.85s ease-in-out infinite 0.3s; }
+    .eq-playing .eq-bar:nth-child(4) { animation: eqPulse 0.65s ease-in-out infinite 0.1s; }
+
+    /* Seamless Marquee */
+    @keyframes tickerMove {
+      0% { transform: translateX(0%); }
+      100% { transform: translateX(-50%); }
+    }
+
+    .ticker-track {
+      display: flex;
+      width: max-content;
+      animation: tickerMove 32s linear infinite;
+    }
+
+    .ticker-track:hover {
+      animation-play-state: paused;
+    }
+
+    /* Scroll Reveal */
+    .reveal-block {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1), transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .reveal-block.in-view {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* 3D Tilt Card Perspective */
+    .tilt-stage {
+      perspective: 1100px;
+    }
+
+    .tilt-card {
+      transform-style: preserve-3d;
+      transition: transform 0.18s ease-out, box-shadow 0.35s ease;
+    }
+
+    /* Coaster Sketch Canvas */
+    #coasterCanvas {
+      touch-action: none;
+      cursor: crosshair;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 7px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0F0D0C;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #D96B43;
+      border-radius: 99px;
+    }
+  </style>
+</head>
+<body class="arch-grid-bg antialiased selection:bg-copper selection:text-parchment">
+
+  <!-- Film Grain Layer -->
+  <div class="film-grain" aria-hidden="true"></div>
+
+  <!-- Precision Reticle Cursor -->
+  <div id="reticle-cursor" aria-hidden="true"></div>
+
+  <!-- Notification Toast Container -->
+  <div id="toast-stack" class="fixed top-20 right-4 sm:right-6 z-[9996] flex flex-col gap-2 pointer-events-none"></div>
+
+  <!-- =========================================================
+       ARCHITECTURAL HEADER / NAVIGATION
+  ========================================================== -->
+  <header class="sticky top-0 z-50 border-b hairline-border backdrop-blur-xl transition-colors duration-500" style="background-color: color-mix(in srgb, var(--bg-canvas) 85%, transparent);">
+    <div class="max-w-7xl mx-auto px-4 sm:px-8 h-20 flex items-center justify-between gap-4">
+      <!-- Brand Monogram & Wordmark -->
+      <a href="#" class="flex items-center gap-3.5 group magnetic-el" data-reticle="INDEX">
+        <div class="w-10 h-10 rounded-full border border-copper/60 flex items-center justify-center bg-copper/10 group-hover:bg-copper transition-colors duration-300">
+          <svg class="w-5 h-5 text-copper group-hover:text-parchment transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+            <circle cx="12" cy="12" r="9"/>
+            <path d="M8 14c1.5 2 6.5 2 8 0M9 9.5h.01M15 9.5h.01" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div>
+          <span class="font-display font-bold text-lg sm:text-xl tracking-wider uppercase block leading-none">ARTBEAT CAFE</span>
+          <span class="font-mono text-[10px] tracking-[0.22em] uppercase text-pistachio block mt-1">Tathawade &bull; Continental Gallery</span>
+        </div>
+      </a>
+
+      <!-- Desktop Navigation -->
+      <nav class="hidden lg:flex items-center gap-7 font-mono text-[11px] uppercase tracking-[0.18em] text-dim">
+        <a href="#sanctuary" class="hover:text-parchment transition-colors magnetic-el">01 / Sanctuary</a>
+        <a href="#culinary-index" class="hover:text-parchment transition-colors magnetic-el">02 / Menu Index</a>
+        <a href="#experiences" class="hover:text-parchment transition-colors magnetic-el">03 / Gatherings</a>
+        <a href="#coaster-wall" class="hover:text-parchment transition-colors magnetic-el">04 / Coaster Wall</a>
+        <a href="#table-pass" class="hover:text-parchment transition-colors magnetic-el">05 / Table Pass</a>
+      </nav>
+
+      <!-- Interactive Lounge Controls -->
+      <div class="flex items-center gap-2 sm:gap-3">
+        <!-- Day / Twilight Mood Switcher -->
+        <button id="mood-switch" type="button" aria-label="Switch Cafe Lighting Mood"
+          class="magnetic-el flex items-center gap-2 px-3.5 py-2 rounded-full border hairline-border hover:border-pistachio font-mono text-[11px] tracking-wider transition-all"
+          data-reticle="LIGHT">
+          <span id="mood-dot" class="w-2 h-2 rounded-full bg-copper"></span>
+          <span id="mood-text" class="hidden sm:inline">MIDNIGHT ACOUSTIC</span>
+        </button>
+
+        <!-- Interactive Table Tray Button -->
+        <button id="tray-open-btn" type="button"
+          class="magnetic-el flex items-center gap-2.5 px-4 py-2 rounded-full bg-copper text-parchment font-mono text-[11px] uppercase tracking-wider hover:bg-pistachio hover:text-obsidian transition-all shadow-lg"
+          data-reticle="TRAY">
+          <span>Tray</span>
+          <span id="tray-badge" class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-obsidian text-parchment font-bold text-[10px]">0</span>
+        </button>
+
+        <!-- Mobile Menu Button -->
+        <button id="mobile-drawer-btn" type="button" aria-label="Toggle Menu" class="lg:hidden p-2.5 rounded-full border hairline-border">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 7h16M4 12h16M7 17h13"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Navigation Panel -->
+    <div id="mobile-drawer" class="hidden lg:hidden border-t hairline-border px-6 py-6 space-y-4 surface-panel">
+      <div class="grid grid-cols-2 gap-2.5 font-mono text-xs uppercase tracking-widest">
+        <a href="#sanctuary" class="mob-link p-3 rounded-xl border hairline-border">01 / Sanctuary</a>
+        <a href="#culinary-index" class="mob-link p-3 rounded-xl border hairline-border">02 / Menu</a>
+        <a href="#experiences" class="mob-link p-3 rounded-xl border hairline-border">03 / Gatherings</a>
+        <a href="#coaster-wall" class="mob-link p-3 rounded-xl border hairline-border">04 / Coaster Wall</a>
+      </div>
+      <a href="#table-pass" class="mob-link block text-center w-full py-3 rounded-xl bg-copper text-parchment font-mono text-xs uppercase tracking-widest">
+        Generate Instant Table Pass
+      </a>
+    </div>
+  </header>
+
+  <!-- =========================================================
+       1. KINETIC ARCHITECTURAL HERO & FLOATING 3D TILT CARDS
+  ========================================================== -->
+  <section class="relative pt-10 pb-20 sm:pt-16 sm:pb-28 overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-8">
+      <!-- Live Architectural Status Strip -->
+      <div class="flex flex-wrap items-center justify-between gap-4 pb-6 border-b hairline-border font-mono text-[11px] uppercase tracking-[0.18em] text-dim">
+        <div class="flex items-center gap-2.5">
+          <span class="relative flex h-2.5 w-2.5">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-sage opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-sage"></span>
+          </span>
+          <span>OPEN DAILY 11:00 AM &ndash; 11:00 PM &bull; DINE-IN &middot; DRIVE-THROUGH &middot; NO-CONTACT DELIVERY</span>
+        </div>
+        <div class="text-pistachio">4.9 &#9733; (1,362 REVIEWS) &bull; &#8377;200&ndash;400 PER PERSON</div>
+      </div>
+
+      <!-- Main Hero Asymmetric Split -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 pt-12 items-center">
+        <!-- Left Display Typography -->
+        <div class="lg:col-span-7 space-y-7">
+          <div class="inline-flex items-center gap-3 px-4 py-1.5 rounded-full border border-pistachio/40 bg-pistachio/10 font-mono text-[11px] uppercase tracking-[0.2em] text-pistachio">
+            <span>PALLADIO SOCIETY &bull; BHUMKAR CHOWK RD</span>
+          </div>
+
+          <h1 class="font-display font-bold text-4xl sm:text-6xl lg:text-[4.4rem] leading-[0.98] tracking-tight">
+            <span class="block scroll-shift-left">NOCTURNAL</span>
+            <span class="block font-serif italic font-normal text-copper text-5xl sm:text-7xl lg:text-[5.2rem] my-1">
+              Espresso &amp; Culinary
+            </span>
+            <span class="block scroll-shift-right">SANCTUARY.</span>
+          </h1>
+
+          <p class="font-serif text-xl sm:text-2xl text-dim max-w-xl leading-relaxed">
+            Near Decathlon in Tathawade—an intimate, down-to-earth Continental lounge celebrated by 1,360+ guests for velvety White Sauce Penne, crisp pistachio Kunafa, board games, and unhurried conversation.
+          </p>
+
+          <!-- Action Buttons + Soundscape Vinyl Widget -->
+          <div class="flex flex-wrap items-center gap-4 pt-2">
+            <a href="#culinary-index"
+              class="magnetic-el px-7 py-4 rounded-full bg-copper text-parchment font-mono text-xs uppercase tracking-widest hover:bg-pistachio hover:text-obsidian transition-all shadow-xl flex items-center gap-3"
+              data-reticle="TASTE">
+              <span>Explore Curated Menu</span>
+              <span>&rarr;</span>
+            </a>
+
+            <a href="https://www.google.com/maps/search/?api=1&query=ArtBeat+Cafe+Palladio+Society+Bhumkar+Chowk+Rd+Tathawade+Pimpri-Chinchwad+411033"
+              target="_blank" rel="noopener noreferrer"
+              class="magnetic-el px-6 py-4 rounded-full border hairline-border hover:border-copper font-mono text-xs uppercase tracking-widest transition-all"
+              data-reticle="ROUTE">
+              Bhumkar Chowk Directions &#8599;
+            </a>
+          </div>
+
+          <!-- Interactive Vinyl & Rhodes Soundscape Bar -->
+          <div class="pt-4">
+            <button id="lounge-audio-btn" type="button"
+              class="magnetic-el surface-panel rounded-2xl p-3.5 pr-6 inline-flex items-center gap-4 hover:border-pistachio transition-all text-left group"
+              data-reticle="SOUND">
+              <!-- Spinning Vinyl Disc -->
+              <div id="vinyl-disc" class="w-12 h-12 rounded-full bg-obsidian border border-pistachio/60 flex items-center justify-center relative shrink-0 vinyl-paused shadow-inner">
+                <div class="w-8 h-8 rounded-full border border-white/15 flex items-center justify-center">
+                  <div class="w-3.5 h-3.5 rounded-full bg-copper flex items-center justify-center">
+                    <div class="w-1 h-1 rounded-full bg-obsidian"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="font-mono text-[10px] uppercase tracking-widest text-pistachio">LOUNGE SOUNDSCAPE</span>
+                  <!-- Animated Equalizer Bars -->
+                  <div id="eq-visualizer" class="flex items-end gap-0.5 h-4">
+                    <span class="eq-bar"></span>
+                    <span class="eq-bar"></span>
+                    <span class="eq-bar"></span>
+                    <span class="eq-bar"></span>
+                  </div>
+                </div>
+                <p id="audio-status-label" class="font-serif text-lg leading-tight mt-0.5">
+                  Tap to spin warm Rhodes chords &amp; vinyl crackle
+                </p>
+              </div>
+            </button>
+          </div>
+        </div>
+
+        <!-- Right 3D-Tilt Floating Culinary & Atmosphere Gallery Cards -->
+        <div class="lg:col-span-5 relative tilt-stage">
+          <div id="hero-tilt-card" class="tilt-card surface-panel rounded-[2rem] p-4 sm:p-5 shadow-2xl relative">
+            <div class="relative aspect-[4/5] rounded-[1.5rem] overflow-hidden bg-obsidian">
+              <img
+                id="hero-gallery-photo"
+                src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=900&q=85"
+                onerror="this.src='https://placehold.co/640x800/191614/F4EFE6?text=ArtBeat+Cafe+Tathawade'"
+                alt="ArtBeat Cafe nocturnal lounge ambience in Tathawade"
+                class="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-obsidian via-obsidian/20 to-transparent"></div>
+
+              <!-- Floating Architectural Metadata Tag inside Photo -->
+              <div class="absolute top-4 left-4 right-4 flex items-center justify-between">
+                <span class="px-3 py-1 rounded-full bg-obsidian/80 backdrop-blur-md border hairline-border font-mono text-[10px] uppercase tracking-widest text-parchment">
+                  JQ72+XH &bull; PUNE
+                </span>
+                <span class="px-3 py-1 rounded-full bg-copper text-parchment font-mono text-[10px] font-bold tracking-wider">
+                  4.9 &#9733; RATED
+                </span>
+              </div>
+
+              <!-- Bottom Overlay Caption -->
+              <div class="absolute bottom-5 left-5 right-5 space-y-1">
+                <p class="font-mono text-[10px] uppercase tracking-[0.2em] text-pistachio">FEATURED TABLE PAIRING</p>
+                <h2 class="font-serif italic text-2xl sm:text-3xl text-parchment leading-snug">
+                  Crispy Pistachio Kunafa &amp; White Sauce Penne
+                </h2>
+                <p class="font-mono text-[11px] text-dim">
+                  38+ guest mentions for Kunafa &bull; &#8377;200&ndash;400 per person
+                </p>
+              </div>
+            </div>
+
+            <!-- Floating Secondary Mini-Card (Offset Bottom Left) -->
+            <div class="hidden sm:flex items-center gap-3.5 surface-elevated rounded-2xl p-3.5 shadow-2xl absolute -bottom-6 -left-8 max-w-[260px]">
+              <img
+                src="https://images.unsplash.com/photo-1645112411341-6c4fd023714a?auto=format&fit=crop&w=240&q=80"
+                onerror="this.src='https://placehold.co/120x120/221E1B/F4EFE6?text=Alfredo'"
+                alt="Veg Alfredo Penne Pasta"
+                class="w-14 h-14 rounded-xl object-cover shrink-0 border hairline-border"
+              />
+              <div>
+                <span class="font-mono text-[9px] uppercase tracking-widest text-copper block">MOST ORDERED</span>
+                <p class="font-serif text-base font-semibold leading-tight">Veg Alfredo Penne</p>
+                <span class="font-mono text-[11px] text-pistachio">&#8377;240 &bull; White Sauce</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Architectural Ticker Ribbon -->
+    <div class="mt-20 border-y hairline-border py-4 surface-panel overflow-hidden select-none">
+      <div class="ticker-track font-serif italic text-2xl tracking-wide flex items-center gap-10">
+        <span>Veg Alfredo Penne White Sauce Pasta</span>
+        <span class="text-copper not-italic font-mono text-xs">&#9670;</span>
+        <span>Crispy Pistachio Kunafa (38+ Mentions)</span>
+        <span class="text-pistachio not-italic font-mono text-xs">&#9670;</span>
+        <span>Peri Peri Fries &amp; Herb Garlic Bread</span>
+        <span class="text-sage not-italic font-mono text-xs">&#9670;</span>
+        <span>Artisan Pizza &amp; Loaded Veggie Burger</span>
+        <span class="text-copper not-italic font-mono text-xs">&#9670;</span>
+        <span>Molten Choco Lava Cake &amp; Fresh Mint Mojito</span>
+        <span class="text-pistachio not-italic font-mono text-xs">&#9670;</span>
+        <span>Pan-Seared Momos &amp; Tabletop Board Games</span>
+        <span class="text-sage not-italic font-mono text-xs">&#9670;</span>
+        <!-- Seamless Duplicate -->
+        <span>Veg Alfredo Penne White Sauce Pasta</span>
+        <span class="text-copper not-italic font-mono text-xs">&#9670;</span>
+        <span>Crispy Pistachio Kunafa (38+ Mentions)</span>
+        <span class="text-pistachio not-italic font-mono text-xs">&#9670;</span>
+        <span>Peri Peri Fries &amp; Herb Garlic Bread</span>
+        <span class="text-sage not-italic font-mono text-xs">&#9670;</span>
+        <span>Artisan Pizza &amp; Loaded Veggie Burger</span>
+        <span class="text-copper not-italic font-mono text-xs">&#9670;</span>
+        <span>Molten Choco Lava Cake &amp; Fresh Mint Mojito</span>
+        <span class="text-pistachio not-italic font-mono text-xs">&#9670;</span>
+        <span>Pan-Seared Momos &amp; Tabletop Board Games</span>
+        <span class="text-sage not-italic font-mono text-xs">&#9670;</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       2. SANCTUARY & VERIFIED GUEST VOICES (1,362 REVIEWS)
+  ========================================================== -->
+  <section id="sanctuary" class="py-16 sm:py-24 max-w-7xl mx-auto px-4 sm:px-8 reveal-block">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+      <div class="lg:col-span-4 space-y-3">
+        <span class="font-mono text-xs uppercase tracking-[0.2em] text-copper block">01 / THE TATHAWADE SANCTUARY</span>
+        <h2 class="font-display font-bold text-3xl sm:text-4xl tracking-tight leading-tight">
+          Down-to-earth warmth, generous plates.
+        </h2>
+        <p class="font-mono text-xs text-dim leading-relaxed pt-2">
+          Palladio Society, 5, Bhumkar Chowk Rd, near Decathlon, Tathawade, Pimpri-Chinchwad, Maharashtra 411033
+        </p>
+      </div>
+
+      <div class="lg:col-span-8 space-y-8">
+        <p class="font-serif text-2xl sm:text-4xl leading-snug text-parchment/95">
+          A standalone neighborhood cafe crafted for unhurried coffee catch-ups, evening snack cravings, and intimate family milestones—backed by <span class="italic text-pistachio">4.9 stars across 1,362 local diners</span>.
+        </p>
+
+        <!-- Key Architectural Metrics -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-6 border-t hairline-border">
+          <div class="surface-panel rounded-2xl p-4">
+            <span class="font-display font-bold text-2xl sm:text-3xl text-copper">4.9 &#9733;</span>
+            <p class="font-mono text-[10px] uppercase tracking-widest text-dim mt-1">1,362 Reviews</p>
+          </div>
+          <div class="surface-panel rounded-2xl p-4">
+            <span class="font-display font-bold text-2xl sm:text-3xl text-pistachio">&#8377;200&ndash;400</span>
+            <p class="font-mono text-[10px] uppercase tracking-widest text-dim mt-1">Per Person</p>
+          </div>
+          <div class="surface-panel rounded-2xl p-4">
+            <span class="font-display font-bold text-2xl sm:text-3xl text-sage">11 AM&ndash;11 PM</span>
+            <p class="font-mono text-[10px] uppercase tracking-widest text-dim mt-1">Open Every Day</p>
+          </div>
+          <div class="surface-panel rounded-2xl p-4">
+            <span class="font-display font-bold text-2xl sm:text-3xl text-parchment">3 Modes</span>
+            <p class="font-mono text-[10px] uppercase tracking-widest text-dim mt-1">Dine &middot; Drive &middot; Deliver</p>
+          </div>
+        </div>
+
+        <!-- Authentic Google Reviewer Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <article class="surface-panel rounded-2xl p-5 flex flex-col justify-between space-y-4">
+            <div>
+              <div class="flex items-center justify-between font-mono text-[10px] text-pistachio mb-2">
+                <span>&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+                <span class="text-dim">LOCAL GUIDE</span>
+              </div>
+              <p class="font-serif italic text-lg text-parchment/90 leading-relaxed">
+                "From the moment you step through the entrance, the atmosphere strikes you as welcoming and inviting—a wonderful ambience that makes you want to sit and unwind."
+              </p>
+            </div>
+            <div class="font-mono text-[11px] text-copper border-t hairline-border pt-3">
+              &mdash; Foodie_abi (135 Reviews)
+            </div>
+          </article>
+
+          <article class="surface-panel rounded-2xl p-5 flex flex-col justify-between space-y-4">
+            <div>
+              <div class="flex items-center justify-between font-mono text-[10px] text-pistachio mb-2">
+                <span>&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+                <span class="text-dim">CELEBRATION</span>
+              </div>
+              <p class="font-serif italic text-lg text-parchment/90 leading-relaxed">
+                "Celebrated my daughter's birthday at Art Beat Cafe! Friendly, attentive staff and beautiful decoration that made everything go smoothly."
+              </p>
+            </div>
+            <div class="font-mono text-[11px] text-copper border-t hairline-border pt-3">
+              &mdash; Jaypal Dhangar
+            </div>
+          </article>
+
+          <article class="surface-panel rounded-2xl p-5 flex flex-col justify-between space-y-4">
+            <div>
+              <div class="flex items-center justify-between font-mono text-[10px] text-pistachio mb-2">
+                <span>&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+                <span class="text-dim">REGULAR GUEST</span>
+              </div>
+              <p class="font-serif italic text-lg text-parchment/90 leading-relaxed">
+                "Standalone, down-to-earth cafe with very reasonable prices. Great for a quick coffee, snacks, or a short chat with warm and helpful staff."
+              </p>
+            </div>
+            <div class="font-mono text-[11px] text-copper border-t hairline-border pt-3">
+              &mdash; Saptarshi Das (101 Reviews)
+            </div>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       3. FILTERABLE CURATED MENU & INTERACTIVE TABLE TRAY
+  ========================================================== -->
+  <section id="culinary-index" class="py-16 sm:py-24 border-t hairline-border">
+    <div class="max-w-7xl mx-auto px-4 sm:px-8">
+      <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-12 reveal-block">
+        <div>
+          <span class="font-mono text-xs uppercase tracking-[0.2em] text-pistachio block mb-2">02 / CULINARY EXHIBITION</span>
+          <h2 class="font-display font-bold text-3xl sm:text-5xl tracking-tight">
+            Signature Plates &amp; <span class="font-serif italic font-normal text-copper">House Favorites</span>
+          </h2>
+        </div>
+
+        <!-- Category Filter Pills -->
+        <div class="flex flex-wrap gap-2" role="tablist" aria-label="Menu Categories">
+          <button type="button" data-cat="all"
+            class="cat-pill active px-4 py-2.5 rounded-full bg-copper text-parchment font-mono text-[11px] uppercase tracking-wider transition-all">
+            All Plates (8)
+          </button>
+          <button type="button" data-cat="mains"
+            class="cat-pill px-4 py-2.5 rounded-full border hairline-border hover:border-copper font-mono text-[11px] uppercase tracking-wider transition-all">
+            Pasta, Pizza &amp; Burgers
+          </button>
+          <button type="button" data-cat="smallplates"
+            class="cat-pill px-4 py-2.5 rounded-full border hairline-border hover:border-copper font-mono text-[11px] uppercase tracking-wider transition-all">
+            Fries, Momos &amp; Breads
+          </button>
+          <button type="button" data-cat="sweets"
+            class="cat-pill px-4 py-2.5 rounded-full border hairline-border hover:border-copper font-mono text-[11px] uppercase tracking-wider transition-all">
+            Kunafa, Lava &amp; Sips
+          </button>
+        </div>
+      </div>
+
+      <!-- Menu Cards Grid -->
+      <div id="menu-cards-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
+        <!-- Populated via JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       4. GATHERINGS, BOARD GAMES & CELEBRATION DECOR
+  ========================================================== -->
+  <section id="experiences" class="py-16 sm:py-24 surface-panel border-y hairline-border">
+    <div class="max-w-7xl mx-auto px-4 sm:px-8 reveal-block">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+        <div>
+          <span class="font-mono text-xs uppercase tracking-[0.2em] text-sage block mb-2">03 / CURATED MOMENTS</span>
+          <h2 class="font-display font-bold text-3xl sm:text-5xl tracking-tight">
+            Board Games, Quick Chats &amp; <span class="font-serif italic font-normal text-pistachio">Celebrations</span>
+          </h2>
+        </div>
+        <p class="font-serif text-xl text-dim max-w-md">
+          Whether you are dropping by after Decathlon for Peri Peri Fries or styling an intimate birthday table, our crew sets the pace.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Experience 01 -->
+        <div class="surface-elevated rounded-3xl p-7 flex flex-col justify-between hover:-translate-y-1 transition-transform">
+          <div>
+            <div class="flex items-center justify-between font-mono text-[10px] uppercase tracking-widest pb-4 border-b hairline-border">
+              <span class="text-copper font-bold">8+ REVIEW MENTIONS</span>
+              <span class="text-dim">NO COVER CHARGE</span>
+            </div>
+            <h3 class="font-display font-bold text-2xl mt-5">Tabletop Board Game Corner</h3>
+            <p class="font-serif text-lg text-dim mt-3 leading-relaxed">
+              Unplug over Uno, Jenga, Catan, and classic card decks while sharing baskets of Peri Peri Fries, pan-seared Momos, and chilled Mint Mojitos.
+            </p>
+          </div>
+          <div class="mt-8 pt-4 border-t hairline-border flex items-center justify-between">
+            <span class="font-mono text-xs text-pistachio">&#8377;200&ndash;400 / Guest</span>
+            <button type="button" onclick="prefillBooking('Board Games & Snacks Hangout')"
+              class="magnetic-el px-4 py-2 rounded-full border hairline-border hover:bg-copper hover:border-copper font-mono text-[11px] uppercase tracking-wider transition-colors"
+              data-reticle="HOLD">
+              Hold Corner &rarr;
+            </button>
+          </div>
+        </div>
+
+        <!-- Experience 02 -->
+        <div class="surface-elevated rounded-3xl p-7 flex flex-col justify-between hover:-translate-y-1 transition-transform border-pistachio/40">
+          <div>
+            <div class="flex items-center justify-between font-mono text-[10px] uppercase tracking-widest pb-4 border-b hairline-border">
+              <span class="text-pistachio font-bold">CUSTOM TABLE STYLING</span>
+              <span class="text-dim">BIRTHDAYS &amp; DATES</span>
+            </div>
+            <h3 class="font-display font-bold text-2xl mt-5">Intimate Celebration &amp; Decor</h3>
+            <p class="font-serif text-lg text-dim mt-3 leading-relaxed">
+              Praised by Tathawade families for warm, attentive service and tasteful floral &amp; warm-light table arrangements paired with Kunafa and Choco Lava platters.
+            </p>
+          </div>
+          <div class="mt-8 pt-4 border-t hairline-border flex items-center justify-between">
+            <span class="font-mono text-xs text-pistachio">Tailored Setup</span>
+            <button type="button" onclick="prefillBooking('Birthday / Celebration Decor Table')"
+              class="magnetic-el px-4 py-2 rounded-full bg-copper text-parchment hover:bg-pistachio hover:text-obsidian font-mono text-[11px] uppercase tracking-wider transition-colors"
+              data-reticle="STYLE">
+              Plan Setup &rarr;
+            </button>
+          </div>
+        </div>
+
+        <!-- Experience 03 -->
+        <div class="surface-elevated rounded-3xl p-7 flex flex-col justify-between hover:-translate-y-1 transition-transform">
+          <div>
+            <div class="flex items-center justify-between font-mono text-[10px] uppercase tracking-widest pb-4 border-b hairline-border">
+              <span class="text-sage font-bold">11:00 AM &ndash; 11:00 PM</span>
+              <span class="text-dim">DINE &bull; DRIVE &bull; DELIVER</span>
+            </div>
+            <h3 class="font-display font-bold text-2xl mt-5">Quick Coffee &amp; Drive-Through</h3>
+            <p class="font-serif text-lg text-dim mt-3 leading-relaxed">
+              Conveniently located on Bhumkar Chowk Rd near Decathlon. Swing by for a 30-minute espresso break, drive-through takeaway, or no-contact delivery.
+            </p>
+          </div>
+          <div class="mt-8 pt-4 border-t hairline-border flex items-center justify-between">
+            <span class="font-mono text-xs text-pistachio">+91 75070 01960</span>
+            <a href="tel:+917507001960"
+              class="magnetic-el px-4 py-2 rounded-full border hairline-border hover:bg-copper hover:border-copper font-mono text-[11px] uppercase tracking-wider transition-colors"
+              data-reticle="CALL">
+              Call Desk &rarr;
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       5. INTERACTIVE COASTER & WALL SKETCHBOOK CANVAS
+  ========================================================== -->
+  <section id="coaster-wall" class="py-16 sm:py-24 max-w-7xl mx-auto px-4 sm:px-8 reveal-block">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+      <!-- Left Interactive Coaster Studio -->
+      <div class="lg:col-span-7 space-y-5">
+        <div>
+          <span class="font-mono text-xs uppercase tracking-[0.2em] text-copper block mb-2">04 / INTERACTIVE COASTER ARCHIVE</span>
+          <h2 class="font-display font-bold text-3xl sm:text-5xl tracking-tight">
+            Sign &amp; Pin a <span class="font-serif italic font-normal text-pistachio">Gallery Coaster</span>
+          </h2>
+          <p class="font-serif text-xl text-dim mt-2">
+            Every table at ArtBeat has a story. Sketch a quick doodle, stamp an espresso cup ring, and pin your signed coaster to our live Tathawade wall.
+          </p>
+        </div>
+
+        <div class="surface-panel rounded-3xl p-5 sm:p-6 space-y-4 shadow-2xl">
+          <!-- Ink & Tool Controls -->
+          <div class="flex flex-wrap items-center justify-between gap-3 pb-3 border-b hairline-border">
+            <div class="flex items-center gap-2.5" role="group" aria-label="Pigment Swatches">
+              <button type="button" data-ink="#D96B43" aria-label="Burnished Copper"
+                class="ink-dot w-7 h-7 rounded-full bg-[#D96B43] ring-2 ring-offset-2 ring-offset-walnut ring-parchment scale-110 transition-transform"></button>
+              <button type="button" data-ink="#F4EFE6" aria-label="Chalk White"
+                class="ink-dot w-7 h-7 rounded-full bg-[#F4EFE6] transition-transform hover:scale-110"></button>
+              <button type="button" data-ink="#C9A24B" aria-label="Pistachio Gold"
+                class="ink-dot w-7 h-7 rounded-full bg-[#C9A24B] transition-transform hover:scale-110"></button>
+              <button type="button" data-ink="#7C907A" aria-label="Muted Sage"
+                class="ink-dot w-7 h-7 rounded-full bg-[#7C907A] transition-transform hover:scale-110"></button>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-2 font-mono text-[11px]">
+              <button type="button" id="nib-fine-btn" class="px-3 py-1.5 rounded-full bg-copper text-parchment">Fine Nib</button>
+              <button type="button" id="nib-bold-btn" class="px-3 py-1.5 rounded-full border hairline-border">Brush</button>
+              <button type="button" id="cup-ring-btn" class="px-3 py-1.5 rounded-full border border-pistachio/60 text-pistachio hover:bg-pistachio hover:text-obsidian transition-colors">
+                &#9749; Espresso Ring
+              </button>
+              <button type="button" id="undo-stroke-btn" class="px-3 py-1.5 rounded-full border hairline-border text-dim hover:text-parchment">
+                Undo
+              </button>
+              <button type="button" id="clear-coaster-btn" class="px-3 py-1.5 rounded-full border hairline-border text-dim hover:text-copper">
+                Clear
+              </button>
+            </div>
+          </div>
+
+          <!-- Responsive Drawing Canvas -->
+          <div id="coaster-frame" class="relative w-full h-64 sm:h-72 rounded-2xl overflow-hidden border hairline-border bg-[#120F0E]">
+            <canvas id="coasterCanvas" class="w-full h-full block"></canvas>
+            <span class="pointer-events-none absolute bottom-3 right-3 font-mono text-[10px] uppercase tracking-widest text-parchment/30">
+              Obsidian Board &bull; Draw or Stamp Above
+            </span>
+          </div>
+
+          <!-- Sign & Pin Form -->
+          <form id="coaster-pin-form" class="flex flex-col sm:flex-row gap-3 pt-1">
+            <input id="coaster-author" type="text" maxlength="30" required placeholder="Your name or handle (e.g., Ananya • Wakad)..."
+              class="flex-1 px-4 py-3 rounded-full border hairline-border bg-obsidian/60 font-mono text-xs text-parchment placeholder:text-dim focus:outline-none focus:border-copper" />
+            <button type="submit"
+              class="magnetic-el px-6 py-3 rounded-full bg-copper text-parchment font-mono text-xs uppercase tracking-widest hover:bg-pistachio hover:text-obsidian transition-colors"
+              data-reticle="PIN">
+              Pin to Wall &rarr;
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Right Live Wall Feed -->
+      <div class="lg:col-span-5 space-y-4">
+        <div class="flex items-center justify-between">
+          <span class="font-mono text-xs uppercase tracking-widest text-dim">RECENT COASTERS ON THE WALL</span>
+          <span id="coaster-counter" class="font-mono text-xs px-3 py-1 rounded-full bg-pistachio/15 text-pistachio">3 Pinned</span>
+        </div>
+
+        <div id="coaster-gallery-feed" class="space-y-4 max-h-[540px] overflow-y-auto pr-1">
+          <!-- Populated via JS -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       6. INSTANT DIGITAL TABLE PASS & TATHAWADE VISIT
+  ========================================================== -->
+  <section id="table-pass" class="py-16 sm:py-24 border-t hairline-border">
+    <div class="max-w-7xl mx-auto px-4 sm:px-8 reveal-block">
+      <div class="surface-panel rounded-[2.25rem] p-6 sm:p-12 lg:p-14 shadow-2xl relative overflow-hidden">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+          <!-- Left Location & Hours Details -->
+          <div class="lg:col-span-5 space-y-5">
+            <span class="font-mono text-xs uppercase tracking-[0.2em] text-pistachio">05 / RESERVE YOUR CORNER</span>
+            <h2 class="font-display font-bold text-3xl sm:text-5xl tracking-tight leading-tight">
+              Instant Digital <span class="font-serif italic font-normal text-copper">Table Pass</span>
+            </h2>
+            <p class="font-serif text-xl text-dim leading-relaxed">
+              Generate a priority pass for dine-in, board game tables, or birthday decor—and optionally send it straight to our Tathawade desk via WhatsApp or call.
+            </p>
+
+            <div class="space-y-3 pt-3 border-t hairline-border font-mono text-xs text-dim">
+              <p class="text-parchment leading-relaxed">
+                &#128205; Palladio Society, 5, Bhumkar Chowk Rd, near Decathlon, Tathawade, Pimpri-Chinchwad, Maharashtra 411033
+              </p>
+              <p>
+                &#128506; Plus Code: <span class="text-pistachio">JQ72+XH</span> &bull;
+                <a href="https://www.google.com/maps/search/?api=1&query=ArtBeat+Cafe+Palladio+Society+Bhumkar+Chowk+Rd+Tathawade+Pimpri-Chinchwad+411033"
+                   target="_blank" rel="noopener noreferrer" class="text-copper underline underline-offset-4">
+                  Open Google Maps &#8599;
+                </a>
+              </p>
+              <p>&#128338; Daily Hours: <span class="text-parchment">11:00 AM &ndash; 11:00 PM</span></p>
+              <p>&#9742; Direct Desk: <a href="tel:+917507001960" class="text-parchment hover:text-copper underline underline-offset-4">+91 75070 01960</a></p>
+            </div>
+          </div>
+
+          <!-- Right Pass Generator Form & Live Ticket Output -->
+          <div class="lg:col-span-7 space-y-6">
+            <form id="pass-generator-form" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block font-mono text-[10px] uppercase tracking-widest text-dim mb-1.5">Guest Name</label>
+                <input type="text" id="pass-guest" required placeholder="Aarav Deshmukh"
+                  class="w-full px-4 py-3 rounded-2xl border hairline-border bg-obsidian/70 font-mono text-xs text-parchment focus:outline-none focus:border-copper" />
+              </div>
+              <div>
+                <label class="block font-mono text-[10px] uppercase tracking-widest text-dim mb-1.5">Experience</label>
+                <select id="pass-occasion"
+                  class="w-full px-4 py-3 rounded-2xl border hairline-border bg-obsidian/70 font-mono text-xs text-parchment focus:outline-none focus:border-copper">
+                  <option value="Cozy Dine-In Table">Cozy Dine-In Table</option>
+                  <option value="Board Games & Snacks Hangout">Board Games &amp; Snacks Hangout</option>
+                  <option value="Birthday / Celebration Decor Table">Birthday / Celebration Decor Table</option>
+                  <option value="Drive-Through / Quick Pickup">Drive-Through / Quick Pickup</option>
+                </select>
+              </div>
+              <div>
+                <label class="block font-mono text-[10px] uppercase tracking-widest text-dim mb-1.5">Date</label>
+                <input type="date" id="pass-date" required
+                  class="w-full px-4 py-3 rounded-2xl border hairline-border bg-obsidian/70 font-mono text-xs text-parchment focus:outline-none focus:border-copper" />
+              </div>
+              <div class="grid grid-cols-2 gap-2">
+                <div>
+                  <label class="block font-mono text-[10px] uppercase tracking-widest text-dim mb-1.5">Time</label>
+                  <select id="pass-time"
+                    class="w-full px-3 py-3 rounded-2xl border hairline-border bg-obsidian/70 font-mono text-xs text-parchment focus:outline-none focus:border-copper">
+                    <option value="01:00 PM">01:00 PM</option>
+                    <option value="05:00 PM">05:00 PM</option>
+                    <option value="07:30 PM" selected>07:30 PM</option>
+                    <option value="09:30 PM">09:30 PM</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block font-mono text-[10px] uppercase tracking-widest text-dim mb-1.5">Party Size</label>
+                  <select id="pass-party"
+                    class="w-full px-3 py-3 rounded-2xl border hairline-border bg-obsidian/70 font-mono text-xs text-parchment focus:outline-none focus:border-copper">
+                    <option value="2 Guests" selected>2 Guests</option>
+                    <option value="3–4 Guests">3&ndash;4 Guests</option>
+                    <option value="5–6 Guests">5&ndash;6 Guests</option>
+                    <option value="Solo Coffee">Solo Coffee</option>
+                  </select>
+                </div>
+              </div>
+              <div class="sm:col-span-2">
+                <label class="block font-mono text-[10px] uppercase tracking-widest text-dim mb-1.5">Special Request (Kunafa reserve, Birthday cake/decor, Tray items)</label>
+                <input type="text" id="pass-note" placeholder="Reserve 1 Crispy Kunafa + table near board games..."
+                  class="w-full px-4 py-3 rounded-2xl border hairline-border bg-obsidian/70 font-mono text-xs text-parchment focus:outline-none focus:border-copper" />
+              </div>
+              <div class="sm:col-span-2 pt-2">
+                <button type="submit"
+                  class="magnetic-el w-full py-4 rounded-full bg-copper text-parchment font-mono text-xs uppercase tracking-widest hover:bg-pistachio hover:text-obsidian transition-all shadow-xl"
+                  data-reticle="ISSUE">
+                  Issue Digital Table Pass &rarr;
+                </button>
+              </div>
+            </form>
+
+            <!-- Issued Digital Ticket Card -->
+            <div id="issued-ticket" class="hidden rounded-3xl border border-pistachio/60 bg-obsidian/90 p-6 space-y-4 shadow-2xl">
+              <div class="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-dashed hairline-border">
+                <span class="font-mono text-[11px] uppercase tracking-widest text-pistachio font-bold">&#10003; ARTBEAT PRIORITY PASS</span>
+                <span id="ticket-serial" class="font-mono text-xs text-copper font-bold">#AB-7507</span>
+              </div>
+              <div>
+                <h4 id="ticket-headline" class="font-display font-bold text-xl sm:text-2xl"></h4>
+                <p id="ticket-meta" class="font-mono text-xs text-dim mt-1"></p>
+                <p id="ticket-extra" class="font-serif italic text-base text-pistachio mt-2"></p>
+              </div>
+              <div class="flex flex-wrap gap-3 pt-2">
+                <button type="button" id="copy-ticket-btn"
+                  class="px-4 py-2 rounded-full border hairline-border hover:border-pistachio font-mono text-[11px] uppercase tracking-wider transition-colors">
+                  Copy Pass Text
+                </button>
+                <a id="whatsapp-ticket-link" href="https://wa.me/917507001960" target="_blank" rel="noopener noreferrer"
+                  class="px-4 py-2 rounded-full bg-sage text-obsidian font-mono text-[11px] font-bold uppercase tracking-wider hover:opacity-90 transition-opacity">
+                  Send via WhatsApp &#8599;
+                </a>
+                <a href="tel:+917507001960"
+                  class="px-4 py-2 rounded-full border border-copper text-copper font-mono text-[11px] uppercase tracking-wider hover:bg-copper hover:text-parchment transition-colors">
+                  Call +91 75070 01960
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       ARCHITECTURAL FOOTER
+  ========================================================== -->
+  <footer class="border-t hairline-border py-12 surface-panel">
+    <div class="max-w-7xl mx-auto px-4 sm:px-8 flex flex-col sm:flex-row items-center justify-between gap-6">
+      <div>
+        <span class="font-display font-bold text-xl tracking-wider uppercase">ARTBEAT CAFE</span>
+        <p class="font-mono text-xs text-dim mt-1">
+          Palladio Society, 5, Bhumkar Chowk Rd, Tathawade &bull; Open 11 AM &ndash; 11 PM &bull; +91 75070 01960
+        </p>
+      </div>
+      <div class="flex flex-wrap items-center gap-6 font-mono text-xs uppercase tracking-wider text-dim">
+        <a href="#culinary-index" class="hover:text-parchment">Menu</a>
+        <a href="#experiences" class="hover:text-parchment">Gatherings</a>
+        <a href="https://www.google.com/maps/search/?api=1&query=ArtBeat+Cafe+Palladio+Society+Bhumkar+Chowk+Rd+Tathawade+Pimpri-Chinchwad+411033"
+           target="_blank" rel="noopener noreferrer" class="hover:text-parchment">Google Maps</a>
+        <button type="button" onclick="togglePitchDialog(true)" class="text-pistachio underline underline-offset-4">
+          Jayara Web Works Pitch
+        </button>
+      </div>
+    </div>
+  </footer>
+
+  <!-- =========================================================
+       DISCREET COLLAPSIBLE JAYARA WEB WORKS PITCH BADGE
+  ========================================================== -->
+  <div id="jayara-badge-wrap" class="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 max-w-[calc(100vw-2rem)]">
+    <div id="jayara-badge-expanded" class="flex items-center gap-2 p-2 pl-4 rounded-full bg-walnut border border-pistachio/50 shadow-2xl">
+      <button type="button" onclick="togglePitchDialog(true)" class="flex items-center gap-2.5 text-left group">
+        <span class="w-2 h-2 rounded-full bg-pistachio animate-pulse"></span>
+        <span class="font-mono text-[11px] sm:text-xs text-parchment">
+          Crafted by <strong class="text-pistachio group-hover:text-copper transition-colors">Jayara Web Works</strong> &mdash; <span class="text-dim hidden sm:inline">We Build Experience</span>
+        </span>
+      </button>
+      <button type="button" onclick="collapsePitchBadge(true)" aria-label="Minimize Pitch Badge"
+        class="w-7 h-7 rounded-full bg-white/5 hover:bg-copper text-parchment flex items-center justify-center text-xs transition-colors">
+        &minus;
+      </button>
+    </div>
+
+    <button id="jayara-badge-collapsed" type="button" onclick="collapsePitchBadge(false)"
+      class="hidden px-3.5 py-2 rounded-full bg-walnut border border-pistachio/50 font-mono text-[10px] uppercase tracking-widest text-pistachio shadow-xl hover:border-copper">
+      JWW Concept &#9650;
+    </button>
+  </div>
+
+  <!-- =========================================================
+       TABLE TRAY DRAWER & JAYARA WEB WORKS PROPOSAL MODAL
+  ========================================================== -->
+  <!-- Slide-over Table Tray -->
+  <div id="tray-drawer" class="fixed inset-0 z-[9990] hidden">
+    <div id="tray-overlay" class="absolute inset-0 bg-black/70 backdrop-blur-xs"></div>
+    <aside class="absolute right-0 top-0 bottom-0 w-full max-w-md surface-panel border-l hairline-border p-6 sm:p-8 flex flex-col justify-between shadow-2xl">
+      <div>
+        <div class="flex items-center justify-between pb-4 border-b hairline-border">
+          <div>
+            <span class="font-mono text-[10px] uppercase tracking-widest text-pistachio">TATHAWADE CURATED ORDER</span>
+            <h3 class="font-display font-bold text-2xl mt-0.5">Your Table Tray</h3>
+          </div>
+          <button type="button" id="tray-close-btn" class="w-9 h-9 rounded-full border hairline-border flex items-center justify-center hover:bg-copper transition-colors">&times;</button>
+        </div>
+
+        <div id="tray-list" class="mt-6 space-y-3 max-h-[55vh] overflow-y-auto pr-1">
+          <!-- Populated dynamically -->
+        </div>
+      </div>
+
+      <div class="pt-4 border-t hairline-border space-y-4">
+        <div class="flex items-center justify-between font-mono text-xs text-dim">
+          <span>BUDGET GUIDE: &#8377;200&ndash;400 / GUEST</span>
+          <span id="tray-per-guest" class="text-sage">~&#8377;0 / 2 guests</span>
+        </div>
+        <div class="flex items-center justify-between font-mono text-sm">
+          <span>ESTIMATED TOTAL</span>
+          <span id="tray-sum" class="font-bold text-xl text-pistachio">&#8377;0</span>
+        </div>
+        <button type="button" id="tray-attach-pass-btn"
+          class="w-full py-3.5 rounded-full bg-copper text-parchment font-mono text-xs uppercase tracking-widest hover:bg-pistachio hover:text-obsidian transition-colors">
+          Attach Tray to Table Pass &rarr;
+        </button>
+      </div>
+    </aside>
+  </div>
+
+  <!-- Jayara Web Works Proposal Dialog -->
+  <div id="pitch-dialog" class="fixed inset-0 z-[9992] hidden items-center justify-center p-4">
+    <div onclick="togglePitchDialog(false)" class="absolute inset-0 bg-black/75 backdrop-blur-xs"></div>
+    <div class="relative w-full max-w-xl surface-panel rounded-3xl p-6 sm:p-9 border border-pistachio/50 shadow-2xl">
+      <button type="button" onclick="togglePitchDialog(false)"
+        class="absolute top-5 right-5 w-9 h-9 rounded-full border hairline-border flex items-center justify-center hover:bg-copper transition-colors">&times;</button>
+      <span class="font-mono text-[10px] uppercase tracking-[0.2em] text-pistachio">JAYARA WEB WORKS &bull; CLIENT DEMO #03</span>
+      <h3 class="font-display font-bold text-2xl sm:text-3xl mt-2 leading-tight">
+        Midnight Gallery Concept for <span class="font-serif italic font-normal text-copper">ArtBeat Cafe</span>
+      </h3>
+      <p class="font-serif text-lg text-dim mt-3 leading-relaxed">
+        Designed to transform ArtBeat Cafe's 4.9&#9733; Tathawade reputation (1,362 Google reviews) into a signature digital destination—built with the same bespoke engineering behind <strong>HouseThat</strong> and <strong>PineapplePro</strong>:
+      </p>
+      <ul class="mt-4 space-y-2.5 font-mono text-xs text-parchment/90">
+        <li class="flex gap-2.5"><span class="text-copper">01.</span><span><strong>Nocturnal Obsidian &amp; Copper Identity:</strong> Custom 3D-tilt culinary showcase, precision reticle cursor, and Golden Afternoon / Midnight Acoustic lighting modes.</span></li>
+        <li class="flex gap-2.5"><span class="text-pistachio">02.</span><span><strong>Interactive Rhodes &amp; Vinyl Soundscape:</strong> Synthesizes warm electric piano chords and vinyl crackle right in the browser.</span></li>
+        <li class="flex gap-2.5"><span class="text-sage">03.</span><span><strong>Real Tathawade Conversion Flow:</strong> Curated Kunafa &amp; Alfredo Penne Table Tray, Coaster Sketchbook Wall, and one-click WhatsApp / Call Table Pass (+91 75070 01960).</span></li>
+      </ul>
+      <div class="mt-7 pt-5 border-t hairline-border flex items-center justify-between gap-4">
+        <span class="font-mono text-[11px] text-dim">Jayara Web Works &bull; We Build Experience</span>
+        <button type="button" onclick="togglePitchDialog(false)"
+          class="px-5 py-2.5 rounded-full bg-copper text-parchment font-mono text-xs uppercase tracking-wider">
+          Return to Experience
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       JAVASCRIPT: 3D TILT, AUDIO SYNTH, CANVAS, TRAY & PASS
+  ========================================================== -->
+  <script>
+    // ---------------------------------------------------------
+    // 1. REAL ARTBEAT CAFE MENU ITEMS (₹200–400 PER PERSON FEEL)
+    // ---------------------------------------------------------
+    const culinaryCatalog = [
+      {
+        id: 'veg-alfredo-penne',
+        cat: 'mains',
+        badge: 'MOST POPULAR',
+        name: 'Veg Alfredo Penne Pasta',
+        price: 220,
+        sensory: 'Velvety white cream reduction, sweet corn, bell peppers & roasted garlic herbs.',
+        summary: 'Our signature white sauce penne, cooked al dente and served with warm herb toast.',
+        photo: 'https://images.unsplash.com/photo-1645112411341-6c4fd023714a?auto=format&fit=crop&w=700&q=80'
+      },
+      {
+        id: 'crispy-pistachio-kunafa',
+        cat: 'sweets',
+        badge: '38+ MENTIONS • STAR',
+        name: 'Crispy Pistachio Kunafa',
+        price: 240,
+        sensory: 'Golden crisp kataifi pastry over molten sweet cheese, rose syrup & crushed pistachios.',
+        summary: 'Baked fresh to order—ArtBeat Cafe’s most talked-about dessert across Tathawade.',
+        photo: 'https://images.unsplash.com/photo-1579372786545-d24232daf58c?auto=format&fit=crop&w=700&q=80'
+      },
+      {
+        id: 'peri-peri-fries',
+        cat: 'smallplates',
+        badge: 'POPULAR SHARE',
+        name: 'Peri Peri Fries & Herb Garlic Bread',
+        price: 150,
+        sensory: 'Crisp skin-on potato batons tossed in smoky peri-peri spice with crusty garlic toast.',
+        summary: 'The essential tabletop companion for board game sessions and evening catch-ups.',
+        photo: 'https://images.unsplash.com/photo-1630384060421-cb20d0e0649d?auto=format&fit=crop&w=700&q=80'
+      },
+      {
+        id: 'margherita-veggie-pizza',
+        cat: 'mains',
+        badge: 'HOUSE OVEN',
+        name: 'Artisan Margherita & Veggie Pizza',
+        price: 230,
+        sensory: 'Hand-stretched thin crust, blistered San Marzano style tomato sauce & gooey mozzarella.',
+        summary: 'Generous portions praised by 1,360+ diners for honest flavor and crisp crust.',
+        photo: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=700&q=80'
+      },
+      {
+        id: 'loaded-veggie-burger',
+        cat: 'mains',
+        badge: 'CROWD FAVORITE',
+        name: 'Loaded Herb Veggie Burger',
+        price: 170,
+        sensory: 'Crisp garden-herb patty, melted cheddar slice, caramelized onions & house burger sauce.',
+        summary: 'Served on a toasted brioche bun—ideal for a hearty lunch or quick bite near Decathlon.',
+        photo: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=700&q=80'
+      },
+      {
+        id: 'pan-seared-momos',
+        cat: 'smallplates',
+        badge: 'EVENING CRAVING',
+        name: 'Pan-Seared Veg Momos',
+        price: 150,
+        sensory: 'Delicate wrappers filled with spiced garden vegetables, seared golden with fiery dip.',
+        summary: 'A favorite light snack plate for quick coffee catch-ups on Bhumkar Chowk Rd.',
+        photo: 'https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?auto=format&fit=crop&w=700&q=80'
+      },
+      {
+        id: 'molten-choco-lava',
+        cat: 'sweets',
+        badge: '14+ MENTIONS',
+        name: 'Molten Choco Lava Cake',
+        price: 130,
+        sensory: 'Warm dark cocoa sponge revealing a rich, flowing Belgian-style chocolate heart.',
+        summary: 'Paired best with a late-evening cappuccino after dinner.',
+        photo: 'https://images.unsplash.com/photo-1624353365286-3f8d62daad51?auto=format&fit=crop&w=700&q=80'
+      },
+      {
+        id: 'fresh-mint-mojito',
+        cat: 'sweets',
+        badge: 'COOLER',
+        name: 'Fresh Mint & Lime Mojito',
+        price: 120,
+        sensory: 'Muddled garden mint leaves, hand-pressed lime, cane sugar & sparkling chill.',
+        summary: 'Crisp, refreshing palate cleanser alongside spicy Peri Peri Fries and Momos.',
+        photo: 'https://images.unsplash.com/photo-1551538827-9c037cb4f32a?auto=format&fit=crop&w=700&q=80'
+      }
+    ];
+
+    let tableTray = [];
+
+    function renderCulinaryCards(category = 'all') {
+      const container = document.getElementById('menu-cards-container');
+      const items = category === 'all' ? culinaryCatalog : culinaryCatalog.filter(i => i.cat === category);
+
+      container.innerHTML = items.map(item => `
+        <article class="surface-panel rounded-3xl overflow-hidden flex flex-col justify-between group hover:border-copper/70">
+          <div>
+            <div class="relative aspect-[4/3] overflow-hidden bg-obsidian">
+              <img
+                src="${item.photo}"
+                onerror="this.src='https://placehold.co/600x450/191614/F4EFE6?text=${encodeURIComponent(item.name)}'"
+                alt="${item.name}"
+                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+              />
+              <!-- Hover Sensory Notes Reveal -->
+              <div class="absolute inset-0 bg-obsidian/90 p-5 flex flex-col justify-end opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <span class="font-mono text-[9px] uppercase tracking-[0.2em] text-pistachio mb-1">TASTING NOTES</span>
+                <p class="font-serif italic text-lg text-parchment leading-snug">${item.sensory}</p>
+              </div>
+              <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-obsidian/85 backdrop-blur-xs border hairline-border font-mono text-[9px] font-bold tracking-wider text-pistachio">
+                ${item.badge}
+              </span>
+            </div>
+
+            <div class="p-5">
+              <div class="flex items-start justify-between gap-2">
+                <h3 class="font-display font-bold text-lg leading-snug">${item.name}</h3>
+                <span class="font-mono text-sm font-bold text-copper shrink-0">&#8377;${item.price}</span>
+              </div>
+              <p class="font-serif text-base text-dim mt-2 leading-relaxed">${item.summary}</p>
+            </div>
+          </div>
+
+          <div class="px-5 pb-5 pt-2 flex items-center justify-between border-t hairline-border/50">
+            <span class="font-mono text-[9px] uppercase tracking-widest text-dim">Hover for notes</span>
+            <button type="button" onclick="addItemToTray('${item.id}')"
+              class="magnetic-el px-3.5 py-2 rounded-full border hairline-border hover:bg-copper hover:border-copper text-parchment font-mono text-[10px] uppercase tracking-wider transition-all"
+              data-reticle="+ TRAY">
+              + Add to Tray
+            </button>
+          </div>
+        </article>
+      `).join('');
+
+      attachReticleListeners();
+    }
+
+    document.querySelectorAll('.cat-pill').forEach(pill => {
+      pill.addEventListener('click', () => {
+        document.querySelectorAll('.cat-pill').forEach(p => {
+          p.classList.remove('bg-copper', 'text-parchment', 'active');
+          p.classList.add('border', 'hairline-border');
+        });
+        pill.classList.add('bg-copper', 'text-parchment', 'active');
+        pill.classList.remove('border', 'hairline-border');
+        renderCulinaryCards(pill.dataset.cat);
+      });
+    });
+
+    function addItemToTray(id) {
+      const found = culinaryCatalog.find(i => i.id === id);
+      if (!found) return;
+      tableTray.push(found);
+      syncTrayUI();
+      pushToast(`Added ${found.name} (₹${found.price}) to Table Tray`);
+    }
+
+    function removeItemFromTray(idx) {
+      tableTray.splice(idx, 1);
+      syncTrayUI();
+    }
+
+    function syncTrayUI() {
+      document.getElementById('tray-badge').textContent = tableTray.length;
+      const list = document.getElementById('tray-list');
+      const sumEl = document.getElementById('tray-sum');
+      const perGuestEl = document.getElementById('tray-per-guest');
+
+      if (tableTray.length === 0) {
+        list.innerHTML = `<p class="font-serif italic text-lg text-dim text-center py-10">Your Table Tray is empty. Select White Sauce Penne, Crispy Kunafa, or Peri Peri Fries to plan your order.</p>`;
+        sumEl.textContent = '₹0';
+        perGuestEl.textContent = '~₹0 / 2 guests';
+        return;
+      }
+
+      const total = tableTray.reduce((acc, item) => acc + item.price, 0);
+      sumEl.textContent = `₹${total}`;
+      perGuestEl.textContent = `~₹${Math.round(total / 2)} / 2 guests`;
+
+      list.innerHTML = tableTray.map((item, idx) => `
+        <div class="flex items-center justify-between gap-3 p-3.5 rounded-2xl surface-elevated">
+          <div>
+            <p class="font-display font-semibold text-sm">${item.name}</p>
+            <span class="font-mono text-xs text-pistachio">&#8377;${item.price}</span>
+          </div>
+          <button type="button" onclick="removeItemFromTray(${idx})"
+            class="w-7 h-7 rounded-full border hairline-border text-xs hover:bg-copper transition-colors">&times;</button>
+        </div>
+      `).join('');
+    }
+
+    const trayDrawer = document.getElementById('tray-drawer');
+    document.getElementById('tray-open-btn').addEventListener('click', () => trayDrawer.classList.remove('hidden'));
+    document.getElementById('tray-close-btn').addEventListener('click', () => trayDrawer.classList.add('hidden'));
+    document.getElementById('tray-overlay').addEventListener('click', () => trayDrawer.classList.add('hidden'));
+
+    document.getElementById('tray-attach-pass-btn').addEventListener('click', () => {
+      if (tableTray.length === 0) {
+        pushToast('Add at least one item to your tray first.');
+        return;
+      }
+      const summary = tableTray.map(i => i.name).join(', ');
+      document.getElementById('pass-note').value = `Tray: ${summary}`;
+      trayDrawer.classList.add('hidden');
+      document.getElementById('table-pass').scrollIntoView({ behavior: 'smooth' });
+      pushToast('Tray items attached to your Table Pass below!');
+    });
+
+    // ---------------------------------------------------------
+    // 2. DAY / TWILIGHT LIGHTING MOOD SWITCHER
+    // ---------------------------------------------------------
+    let isGoldenAfternoon = false;
+    document.getElementById('mood-switch').addEventListener('click', () => {
+      isGoldenAfternoon = !isGoldenAfternoon;
+      document.body.classList.toggle('golden-afternoon', isGoldenAfternoon);
+
+      const dot = document.getElementById('mood-dot');
+      const label = document.getElementById('mood-text');
+      const heroPhoto = document.getElementById('hero-gallery-photo');
+
+      if (isGoldenAfternoon) {
+        dot.classList.remove('bg-copper');
+        dot.classList.add('bg-pistachio');
+        label.textContent = 'GOLDEN AFTERNOON';
+        heroPhoto.src = 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=900&q=85';
+        pushToast('Lighting shifted to Golden Afternoon warm sepia');
+      } else {
+        dot.classList.remove('bg-pistachio');
+        dot.classList.add('bg-copper');
+        label.textContent = 'MIDNIGHT ACOUSTIC';
+        heroPhoto.src = 'https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=900&q=85';
+        pushToast('Lighting shifted to Midnight Acoustic obsidian');
+      }
+    });
+
+    // ---------------------------------------------------------
+    // 3. WEB AUDIO API: RHODES ELECTRIC PIANO + VINYL CRACKLE
+    // ---------------------------------------------------------
+    let audioContext = null;
+    let isLoungePlaying = false;
+    let chordLoopTimer = null;
+    let crackleNode = null;
+
+    document.getElementById('lounge-audio-btn').addEventListener('click', () => {
+      isLoungePlaying = !isLoungePlaying;
+      const disc = document.getElementById('vinyl-disc');
+      const eq = document.getElementById('eq-visualizer');
+      const status = document.getElementById('audio-status-label');
+
+      if (isLoungePlaying) {
+        disc.classList.remove('vinyl-paused');
+        disc.classList.add('vinyl-spinning');
+        eq.classList.add('eq-playing');
+        status.textContent = 'Playing: Midnight Tathawade Rhodes (Cmaj9 → Am11)';
+        startNocturnalSoundscape();
+        pushToast('Vinyl spinning — warm Rhodes & crackle active');
+      } else {
+        disc.classList.remove('vinyl-spinning');
+        disc.classList.add('vinyl-paused');
+        eq.classList.remove('eq-playing');
+        status.textContent = 'Tap to spin warm Rhodes chords & vinyl crackle';
+        stopNocturnalSoundscape();
+      }
+    });
+
+    function startNocturnalSoundscape() {
+      try {
+        if (!audioContext) {
+          audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        if (audioContext.state === 'suspended') audioContext.resume();
+
+        // Subtle warm vinyl surface crackle generator
+        const bufferSize = audioContext.sampleRate * 2;
+        const noiseBuffer = audioContext.createBuffer(1, bufferSize, audioContext.sampleRate);
+        const output = noiseBuffer.getChannelData(0);
+        for (let i = 0; i < bufferSize; i++) {
+          const r = Math.random();
+          output[i] = r > 0.996 ? (Math.random() * 2 - 1) * 0.25 : (Math.random() * 2 - 1) * 0.008;
+        }
+        crackleNode = audioContext.createBufferSource();
+        crackleNode.buffer = noiseBuffer;
+        crackleNode.loop = true;
+
+        const crackleFilter = audioContext.createBiquadFilter();
+        crackleFilter.type = 'bandpass';
+        crackleFilter.frequency.value = 1800;
+
+        const crackleGain = audioContext.createGain();
+        crackleGain.gain.value = 0.05;
+
+        crackleNode.connect(crackleFilter);
+        crackleFilter.connect(crackleGain);
+        crackleGain.connect(audioContext.destination);
+        crackleNode.start();
+
+        // Alternating Jazz Lounge Chords (Dm9 -> G13 -> Cmaj9 -> A7alt)
+        const progressions = [
+          [146.83, 174.61, 220.00, 261.63, 329.63],
+          [196.00, 246.94, 293.66, 349.23, 440.00],
+          [130.81, 164.81, 196.00, 246.94, 293.66],
+          [220.00, 277.18, 329.63, 392.00, 523.25]
+        ];
+        let step = 0;
+
+        const triggerChord = () => {
+          if (!isLoungePlaying) return;
+          const chord = progressions[step % progressions.length];
+          step++;
+          const now = audioContext.currentTime;
+
+          chord.forEach((freq, idx) => {
+            const osc = audioContext.createOscillator();
+            const gain = audioContext.createGain();
+            osc.type = idx === 0 ? 'sine' : 'triangle';
+            osc.frequency.setValueAtTime(freq, now + idx * 0.04);
+
+            gain.gain.setValueAtTime(0.0001, now + idx * 0.04);
+            gain.gain.exponentialRampToValueAtTime(0.016, now + idx * 0.04 + 0.35);
+            gain.gain.exponentialRampToValueAtTime(0.0001, now + 3.2);
+
+            osc.connect(gain);
+            gain.connect(audioContext.destination);
+            osc.start(now + idx * 0.04);
+            osc.stop(now + 3.3);
+          });
+        };
+
+        triggerChord();
+        chordLoopTimer = setInterval(triggerChord, 3400);
+      } catch (err) {
+        console.warn('Web Audio unavailable:', err);
+      }
+    }
+
+    function stopNocturnalSoundscape() {
+      if (chordLoopTimer) clearInterval(chordLoopTimer);
+      if (crackleNode) {
+        try { crackleNode.stop(); } catch (e) {}
+        crackleNode = null;
+      }
+    }
+
+    // ---------------------------------------------------------
+    // 4. 3D-TILT HERO CARD & SCROLL-DRIVEN TYPOGRAPHY
+    // ---------------------------------------------------------
+    const tiltCard = document.getElementById('hero-tilt-card');
+    if (tiltCard) {
+      tiltCard.addEventListener('mousemove', (e) => {
+        const rect = tiltCard.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / rect.width - 0.5;
+        const y = (e.clientY - rect.top) / rect.height - 0.5;
+        tiltCard.style.transform = `rotateY(${x * 10}deg) rotateX(${-y * 10}deg)`;
+      });
+      tiltCard.addEventListener('mouseleave', () => {
+        tiltCard.style.transform = 'rotateY(0deg) rotateX(0deg)';
+      });
+    }
+
+    window.addEventListener('scroll', () => {
+      const y = window.scrollY;
+      const leftWord = document.querySelector('.scroll-shift-left');
+      const rightWord = document.querySelector('.scroll-shift-right');
+      if (leftWord) leftWord.style.transform = `translateX(${Math.min(y * 0.06, 32)}px)`;
+      if (rightWord) rightWord.style.transform = `translateX(${-Math.min(y * 0.06, 32)}px)`;
+    }, { passive: true });
+
+    // ---------------------------------------------------------
+    // 5. INTERACTIVE COASTER & WALL SKETCHBOOK CANVAS
+    // ---------------------------------------------------------
+    const coasterCanvas = document.getElementById('coasterCanvas');
+    const cCtx = coasterCanvas.getContext('2d');
+    let isDrawing = false;
+    let inkColor = '#D96B43';
+    let nibSize = 2.4;
+    let strokeHistory = [];
+
+    function saveCanvasSnapshot() {
+      if (coasterCanvas.width > 0 && coasterCanvas.height > 0) {
+        strokeHistory.push(cCtx.getImageData(0, 0, coasterCanvas.width, coasterCanvas.height));
+        if (strokeHistory.length > 15) strokeHistory.shift();
+      }
+    }
+
+    function sizeCoasterCanvas() {
+      const frame = document.getElementById('coaster-frame');
+      const rect = frame.getBoundingClientRect();
+      const backup = document.createElement('canvas');
+      backup.width = coasterCanvas.width;
+      backup.height = coasterCanvas.height;
+      if (coasterCanvas.width > 0 && coasterCanvas.height > 0) {
+        backup.getContext('2d').drawImage(coasterCanvas, 0, 0);
+      }
+
+      coasterCanvas.width = rect.width;
+      coasterCanvas.height = rect.height;
+      cCtx.lineCap = 'round';
+      cCtx.lineJoin = 'round';
+      if (backup.width > 0) {
+        cCtx.drawImage(backup, 0, 0);
+      }
+    }
+
+    window.addEventListener('resize', sizeCoasterCanvas);
+
+    function getCanvasCoords(e) {
+      const rect = coasterCanvas.getBoundingClientRect();
+      const cx = e.touches ? e.touches[0].clientX : e.clientX;
+      const cy = e.touches ? e.touches[0].clientY : e.clientY;
+      return { x: cx - rect.left, y: cy - rect.top };
+    }
+
+    coasterCanvas.addEventListener('mousedown', (e) => {
+      saveCanvasSnapshot();
+      isDrawing = true;
+      const pt = getCanvasCoords(e);
+      cCtx.beginPath();
+      cCtx.moveTo(pt.x, pt.y);
+    });
+
+    coasterCanvas.addEventListener('mousemove', (e) => {
+      if (!isDrawing) return;
+      const pt = getCanvasCoords(e);
+      cCtx.strokeStyle = inkColor;
+      cCtx.lineWidth = nibSize;
+      cCtx.lineTo(pt.x, pt.y);
+      cCtx.stroke();
+    });
+
+    window.addEventListener('mouseup', () => {
+      if (isDrawing) {
+        isDrawing = false;
+        cCtx.closePath();
+      }
+    });
+
+    coasterCanvas.addEventListener('touchstart', (e) => {
+      if (e.cancelable) e.preventDefault();
+      saveCanvasSnapshot();
+      isDrawing = true;
+      const pt = getCanvasCoords(e);
+      cCtx.beginPath();
+      cCtx.moveTo(pt.x, pt.y);
+    }, { passive: false });
+
+    coasterCanvas.addEventListener('touchmove', (e) => {
+      if (!isDrawing) return;
+      if (e.cancelable) e.preventDefault();
+      const pt = getCanvasCoords(e);
+      cCtx.strokeStyle = inkColor;
+      cCtx.lineWidth = nibSize;
+      cCtx.lineTo(pt.x, pt.y);
+      cCtx.stroke();
+    }, { passive: false });
+
+    coasterCanvas.addEventListener('touchend', () => {
+      isDrawing = false;
+      cCtx.closePath();
+    });
+
+    document.querySelectorAll('.ink-dot').forEach(dot => {
+      dot.addEventListener('click', () => {
+        document.querySelectorAll('.ink-dot').forEach(d => d.classList.remove('ring-2', 'ring-offset-2', 'ring-offset-walnut', 'ring-parchment', 'scale-110'));
+        dot.classList.add('ring-2', 'ring-offset-2', 'ring-offset-walnut', 'ring-parchment', 'scale-110');
+        inkColor = dot.dataset.ink;
+      });
+    });
+
+    document.getElementById('nib-fine-btn').addEventListener('click', (e) => {
+      nibSize = 2.4;
+      e.target.classList.add('bg-copper', 'text-parchment');
+      document.getElementById('nib-bold-btn').classList.remove('bg-copper', 'text-parchment');
+    });
+
+    document.getElementById('nib-bold-btn').addEventListener('click', (e) => {
+      nibSize = 6.2;
+      e.target.classList.add('bg-copper', 'text-parchment');
+      document.getElementById('nib-fine-btn').classList.remove('bg-copper', 'text-parchment');
+    });
+
+    document.getElementById('cup-ring-btn').addEventListener('click', () => {
+      saveCanvasSnapshot();
+      const rx = 65 + Math.random() * (coasterCanvas.width - 130);
+      const ry = 55 + Math.random() * (coasterCanvas.height - 110);
+      const radius = 26 + Math.random() * 10;
+
+      cCtx.save();
+      cCtx.strokeStyle = 'rgba(201, 162, 75, 0.35)';
+      cCtx.lineWidth = 3;
+      cCtx.beginPath();
+      cCtx.arc(rx, ry, radius, 0, Math.PI * 2);
+      cCtx.stroke();
+
+      cCtx.strokeStyle = 'rgba(217, 107, 67, 0.24)';
+      cCtx.lineWidth = 1.4;
+      cCtx.beginPath();
+      cCtx.arc(rx + 2, ry - 1, radius - 2.5, 0.3, Math.PI * 1.7);
+      cCtx.stroke();
+      cCtx.restore();
+      pushToast('Stamped warm espresso cup ring onto coaster');
+    });
+
+    document.getElementById('undo-stroke-btn').addEventListener('click', () => {
+      if (strokeHistory.length > 0) {
+        const prev = strokeHistory.pop();
+        cCtx.putImageData(prev, 0, 0);
+      }
+    });
+
+    document.getElementById('clear-coaster-btn').addEventListener('click', () => {
+      saveCanvasSnapshot();
+      cCtx.clearRect(0, 0, coasterCanvas.width, coasterCanvas.height);
+    });
+
+    // Seeded Coaster Wall Gallery
+    const coasterArchive = [
+      {
+        author: 'Foodie_abi • Local Guide',
+        meta: '5★ Verified Diner',
+        note: 'Welcoming ambience from the moment you step in—makes you want to stay all evening.',
+        artSvg: `<svg viewBox="0 0 260 90" class="w-full h-24 bg-[#120F0E] rounded-xl border hairline-border"><circle cx="130" cy="45" r="26" stroke="rgba(201,162,75,0.45)" stroke-width="2.5" fill="none"/><path d="M90 55 Q130 15 170 55" stroke="#D96B43" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>`
+      },
+      {
+        author: 'Jaypal Dhangar',
+        meta: 'Birthday Celebration',
+        note: 'Celebrated my daughter’s birthday here—thoughtful decor and warm, attentive staff!',
+        artSvg: `<svg viewBox="0 0 260 90" class="w-full h-24 bg-[#120F0E] rounded-xl border hairline-border"><path d="M85 62 H175 V45 H85 Z" stroke="#C9A24B" stroke-width="2" fill="none"/><path d="M110 45 V30 M130 45 V26 M150 45 V30" stroke="#D96B43" stroke-width="2.2" stroke-linecap="round"/></svg>`
+      },
+      {
+        author: 'Tathawade Kunafa Table',
+        meta: 'Late-Evening Regulars',
+        note: 'Crispy pistachio Kunafa + White Sauce Penne after shopping near Bhumkar Chowk.',
+        artSvg: `<svg viewBox="0 0 260 90" class="w-full h-24 bg-[#120F0E] rounded-xl border hairline-border"><path d="M55 58 C95 22, 165 22, 205 58" stroke="#7C907A" stroke-width="2.5" fill="none" stroke-linecap="round"/><circle cx="195" cy="34" r="14" stroke="rgba(217,107,67,0.4)" stroke-width="2" fill="none"/></svg>`
+      }
+    ];
+
+    function renderCoasterFeed() {
+      const feed = document.getElementById('coaster-gallery-feed');
+      document.getElementById('coaster-counter').textContent = `${coasterArchive.length} Pinned`;
+      feed.innerHTML = coasterArchive.map(entry => `
+        <div class="surface-panel rounded-2xl p-4 space-y-2.5">
+          ${entry.dataUrl
+            ? `<img src="${entry.dataUrl}" alt="Coaster sketch by ${entry.author}" class="w-full h-28 object-contain bg-[#120F0E] rounded-xl border hairline-border" />`
+            : entry.artSvg}
+          <div class="flex items-center justify-between pt-1">
+            <span class="font-mono text-xs font-bold text-pistachio">${entry.author}</span>
+            <span class="font-mono text-[10px] text-dim">${entry.meta}</span>
+          </div>
+          <p class="font-serif text-base text-dim">${entry.note}</p>
+        </div>
+      `).join('');
+    }
+
+    document.getElementById('coaster-pin-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const authorInput = document.getElementById('coaster-author');
+      const author = authorInput.value.trim() || 'Night Owl Guest';
+      const dataUrl = coasterCanvas.toDataURL('image/png');
+
+      coasterArchive.unshift({
+        author,
+        meta: 'Just Pinned',
+        note: 'Signed live on the ArtBeat Tathawade Coaster Wall.',
+        dataUrl
+      });
+
+      renderCoasterFeed();
+      authorInput.value = '';
+      cCtx.clearRect(0, 0, coasterCanvas.width, coasterCanvas.height);
+      strokeHistory = [];
+      pushToast(`Coaster signed by ${author} pinned to the wall!`);
+    });
+
+    // ---------------------------------------------------------
+    // 6. TABLE PASS GENERATOR & COPY / WHATSAPP INTEGRATION
+    // ---------------------------------------------------------
+    const passDateInput = document.getElementById('pass-date');
+    if (passDateInput) {
+      passDateInput.value = new Date(Date.now() + 86400000).toISOString().split('T')[0];
+    }
+
+    function prefillBooking(occasionName) {
+      const select = document.getElementById('pass-occasion');
+      select.value = occasionName;
+      document.getElementById('table-pass').scrollIntoView({ behavior: 'smooth' });
+      pushToast(`Selected: ${occasionName}`);
+    }
+
+    let lastGeneratedPassText = '';
+
+    document.getElementById('pass-generator-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const guest = document.getElementById('pass-guest').value.trim();
+      const occasion = document.getElementById('pass-occasion').value;
+      const date = document.getElementById('pass-date').value;
+      const time = document.getElementById('pass-time').value;
+      const party = document.getElementById('pass-party').value;
+      const note = document.getElementById('pass-note').value.trim();
+      const serial = `#AB-${Math.floor(1000 + Math.random() * 8999)}`;
+
+      document.getElementById('ticket-serial').textContent = serial;
+      document.getElementById('ticket-headline').textContent = `${guest} — ${occasion}`;
+      document.getElementById('ticket-meta').textContent = `${date} at ${time} • ${party} • Palladio Society, Bhumkar Chowk Rd, Tathawade`;
+      document.getElementById('ticket-extra').textContent = note ? `Notes: ${note}` : 'Standard priority seating • Open till 11:00 PM';
+
+      lastGeneratedPassText = `ArtBeat Cafe Table Pass (${serial})\nGuest: ${guest} (${party})\nExperience: ${occasion}\nWhen: ${date} at ${time}\nLocation: Palladio Society, Bhumkar Chowk Rd, Tathawade${note ? `\nNotes: ${note}` : ''}`;
+
+      const waUrl = `https://wa.me/917507001960?text=${encodeURIComponent(lastGeneratedPassText)}`;
+      document.getElementById('whatsapp-ticket-link').href = waUrl;
+
+      document.getElementById('issued-ticket').classList.remove('hidden');
+      pushToast(`Table Pass ${serial} issued for ArtBeat Tathawade!`);
+    });
+
+    document.getElementById('copy-ticket-btn').addEventListener('click', () => {
+      if (!lastGeneratedPassText) return;
+      const tempArea = document.createElement('textarea');
+      tempArea.value = lastGeneratedPassText;
+      document.body.appendChild(tempArea);
+      tempArea.select();
+      try {
+        document.execCommand('copy');
+        pushToast('Table Pass copied to clipboard!');
+      } catch (err) {
+        pushToast('Ready to share with +91 75070 01960');
+      }
+      document.body.removeChild(tempArea);
+    });
+
+    // ---------------------------------------------------------
+    // 7. RETICLE CURSOR, PITCH BADGE, SCROLL REVEALS & TOASTS
+    // ---------------------------------------------------------
+    const reticle = document.getElementById('reticle-cursor');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+
+    window.addEventListener('mousemove', (e) => {
+      mx = e.clientX;
+      my = e.clientY;
+    });
+
+    function runReticleLoop() {
+      rx += (mx - rx) * 0.24;
+      ry += (my - ry) * 0.24;
+      if (reticle) {
+        reticle.style.left = `${rx}px`;
+        reticle.style.top = `${ry}px`;
+      }
+      requestAnimationFrame(runReticleLoop);
+    }
+
+    function attachReticleListeners() {
+      document.querySelectorAll('.magnetic-el').forEach(el => {
+        el.addEventListener('mouseenter', () => {
+          if (!reticle) return;
+          const tag = el.getAttribute('data-reticle');
+          if (tag) reticle.textContent = tag;
+          reticle.classList.add('reticle-active');
+        });
+        el.addEventListener('mouseleave', () => {
+          if (!reticle) return;
+          reticle.textContent = '';
+          reticle.classList.remove('reticle-active');
+        });
+      });
+    }
+
+    function togglePitchDialog(show) {
+      const dialog = document.getElementById('pitch-dialog');
+      if (show) {
+        dialog.classList.remove('hidden');
+        dialog.classList.add('flex');
+      } else {
+        dialog.classList.add('hidden');
+        dialog.classList.remove('flex');
+      }
+    }
+
+    function collapsePitchBadge(collapse) {
+      document.getElementById('jayara-badge-expanded').classList.toggle('hidden', collapse);
+      document.getElementById('jayara-badge-collapsed').classList.toggle('hidden', !collapse);
+    }
+
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('in-view');
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal-block').forEach(el => revealObserver.observe(el));
+
+    // Mobile Drawer Toggle
+    const mobBtn = document.getElementById('mobile-drawer-btn');
+    const mobDrawer = document.getElementById('mobile-drawer');
+    mobBtn.addEventListener('click', () => mobDrawer.classList.toggle('hidden'));
+    document.querySelectorAll('.mob-link').forEach(l => l.addEventListener('click', () => mobDrawer.classList.add('hidden')));
+
+    function pushToast(msg) {
+      const stack = document.getElementById('toast-stack');
+      const item = document.createElement('div');
+      item.className = 'px-4 py-3 rounded-2xl bg-walnut border border-pistachio/60 text-parchment font-mono text-xs shadow-2xl flex items-center gap-2.5 transition-all duration-300';
+      item.innerHTML = `<span class="w-2 h-2 rounded-full bg-copper shrink-0"></span><span>${msg}</span>`;
+      stack.appendChild(item);
+
+      setTimeout(() => {
+        item.style.opacity = '0';
+        item.style.transform = 'translateY(-6px)';
+        setTimeout(() => item.remove(), 300);
+      }, 3200);
+    }
+
+    window.onload = function () {
+      renderCulinaryCards('all');
+      syncTrayUI();
+      renderCoasterFeed();
+      sizeCoasterCanvas();
+      attachReticleListeners();
+      runReticleLoop();
+    };
+  </script>
+</body>
+</html>
